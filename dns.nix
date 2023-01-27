@@ -55,6 +55,6 @@ in
     };
 
     networking.firewall.allowedTCPPorts = [ 53 ];
-    networking.resolvconf.useLocalResolver = false;
+    networking.resolvconf.useLocalResolver = true;
   };
 }

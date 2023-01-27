@@ -16,9 +16,43 @@
         "type": "github"
       }
     },
+    "monolithic": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1668255020,
+        "narHash": "sha256-+94O6pgxVVOZZ3imlrf/hywBSY9g/LFwBer1KST6iPE=",
+        "owner": "lancachenet",
+        "repo": "monolithic",
+        "rev": "a45516468d9dd5dd7b96cdf311c07adb472c4e7f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lancachenet",
+        "repo": "monolithic",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1674837125,
+        "narHash": "sha256-9J78W7Gp9BE5sap/ReRuQ3ptkgSgVX6d2NZoIfjqsmw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3db3666500f66a54ff904c6a8d34ea7ca90f1047",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "3db3666500f66a54ff904c6a8d34ea7ca90f1047",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "cache-domains": "cache-domains"
+        "cache-domains": "cache-domains",
+        "monolithic": "monolithic",
+        "nixpkgs": "nixpkgs"
       }
     }
   },
