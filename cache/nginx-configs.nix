@@ -1,7 +1,16 @@
-{ monolithic, replacements, pkgs }:
+{ monolithic, cfg, pkgs }:
 with builtins;
 with pkgs;
 let
+  replacements = {
+    CACHE_INDEX_SIZE = cfg.cacheIndexSize;
+    CACHE_DISK_SIZE = cfg.cacheDiskSize;
+    CACHE_MAX_AGE = cfg.cacheMaxAge;
+    CACHE_SLICE_SIZE = cfg.cacheSliceSize;
+    NGINX_WORKER_PROCESSES = cfg.nginxWorkerProcesses;
+    UPSTREAM_DNS = concatStringsSep " " cfg.resolvers;
+  };
+
   replacementFlags = concatStringsSep " " (lib.attrsets.mapAttrsToList (k: v: "--replace \"${k}\" \"${v}\"") replacements);
 
   builder = toFile "builder.sh" ''

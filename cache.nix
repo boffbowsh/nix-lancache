@@ -2,20 +2,9 @@
 with builtins;
 with lib;
 let
-  replacements = {
-    CACHE_INDEX_SIZE = "500m";
-    CACHE_DISK_SIZE = "1000g";
-    CACHE_MAX_AGE = "3560d";
-    CACHE_SLICE_SIZE = "1m";
-    BEAT_TIME = "1h";
-    LOGFILE_RETENTION = "3560";
-    NGINX_WORKER_PROCESSES = "auto";
-    UPSTREAM_DNS = concatStringsSep " " config.lancache.cache.resolvers;
-  };
-
   cfg = config.lancache.cache;
 
-  nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic replacements; };
+  nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic cfg; };
 
   nginx = pkgs.nginx.overrideAttrs (old: {
     configureFlags = old.configureFlags ++ ["--with-http_slice_module"];
@@ -33,6 +22,31 @@ in
         description = "Upstream DNS servers. Defaults to CloudFlare and Google public DNS";
         type = with types; listOf str;
         default = [ "1.1.1.1" "8.8.8.8" ];
+      };
+      cacheDiskSize = mkOption {
+        description = "The amount of disk space we should use for caching data";
+        type = with types; str;
+        default = "1000g";
+      };
+      cacheIndexSize = mkOption {
+        description = "Amount of index memory for the nginx cache manager. We recommend 250m of index memory per 1TB of cacheDiskSize";
+        type = with types; str;
+        default = "500m";
+      };
+      cacheMaxAge = mkOption {
+        description = "The maximum amount of time a file should be held in cache. There is usually no reason to reduce this - the cache will automatically remove the oldest content if it needs the space.";
+        type = with types; str;
+        default = "3560d";
+      };
+      nginxWorkerProcesses = mkOption {
+        description = "The number of nginx worker processes to run. Defaults to auto, which will use the number of CPU cores.";
+        type = with types; str;
+        default = "auto";
+      };
+      cacheSliceSize = mkOption {
+        description = "See https://lancache.net/docs/advanced/tuning-cache/#tweaking-slice-size. Probably don't change this.";
+        type = with types; str;
+        default = "1m";
       };
     };
   };
