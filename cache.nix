@@ -1,4 +1,4 @@
-{ monolithic, nixpkgs }: { config, lib, pkgs, ... }:
+{ monolithic }: { config, lib, pkgs, ... }:
 with builtins;
 with lib;
 let
@@ -16,6 +16,10 @@ let
   cfg = config.lancache.cache;
 
   nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic replacements; };
+
+  nginx = pkgs.nginx.overrideAttrs (old: {
+    configureFlags = old.configureFlags ++ ["--with-http_slice_module"];
+  });
 in
 {
   options = {
@@ -38,7 +42,7 @@ in
       enable = true;
       recommendedOptimisation = true;
       resolver.addresses = cfg.resolvers;
-      package = nixpkgs.legacyPackages.x86_64-linux.nginxStable.override { withSlice = true; };
+      package = nginx;
       appendHttpConfig = ''
         include ${nginxConfigs}/nginx/conf.d/*.conf;
         include ${nginxConfigs}/nginx/sites-available/*.conf;
