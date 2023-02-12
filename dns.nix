@@ -51,10 +51,12 @@ in
     services.bind = {
       enable = true;
       forwarders = cfg.forwarders;
+      cacheNetworks = [ "192.168.0.0/24" "127.0.0.0/24" ];
       zones = listToAttrs (map (d: { name = d; value = { master = true; file = zonefile; }; }) (domains));
     };
 
     networking.firewall.allowedTCPPorts = [ 53 ];
+    networking.firewall.allowedUDPPorts = [ 53 ];
     networking.resolvconf.useLocalResolver = true;
   };
 }
