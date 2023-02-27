@@ -9,6 +9,7 @@ let
     CACHE_SLICE_SIZE = cfg.cacheSliceSize;
     NGINX_WORKER_PROCESSES = cfg.nginxWorkerProcesses;
     UPSTREAM_DNS = concatStringsSep " " cfg.resolvers;
+    "/data/cache/cache" = cfg.cacheDir;
   };
 
   replacementFlags = concatStringsSep " " (lib.attrsets.mapAttrsToList (k: v: "--replace \"${k}\" \"${v}\"") replacements);

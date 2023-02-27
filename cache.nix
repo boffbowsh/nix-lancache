@@ -48,6 +48,11 @@ in
         type = with types; str;
         default = "1m";
       };
+      cacheDir = mkOption {
+        description = "The directory where the cache will be stored";
+        type = with types; str;
+        default = "/var/cache/nginx/cache";
+      };
     };
   };
 
@@ -58,10 +63,25 @@ in
       resolver.addresses = cfg.resolvers;
       package = nginx;
       appendHttpConfig = ''
+        aio threads;
+
         include ${nginxConfigs}/nginx/conf.d/*.conf;
         include ${nginxConfigs}/nginx/sites-available/*.conf;
       '';
       virtualHosts = { };
+      eventsConfig = ''
+        worker_connections 4096;
+        multi_accept on;
+        use epoll;
+      '';
+
+      streamConfig = ''
+        log_format stream_basic '\$remote_addr [\$time_local] '
+                  '\$protocol \$status \$bytes_sent \$bytes_received '
+                  '\$session_time';
+
+        include ${nginxConfigs}/nginx/stream-available/*;
+      '';
     };
 
     networking.firewall.allowedTCPPorts = [ 80 443 ];
