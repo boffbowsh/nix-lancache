@@ -10,6 +10,7 @@ let
     NGINX_WORKER_PROCESSES = cfg.nginxWorkerProcesses;
     UPSTREAM_DNS = concatStringsSep " " cfg.resolvers;
     "/data/cache/cache" = cfg.cacheDir;
+    "listen 80 reuseport;" = "listen 80 reuseport default_server;";
   };
 
   replacementFlags = concatStringsSep " " (lib.attrsets.mapAttrsToList (k: v: "--replace \"${k}\" \"${v}\"") replacements);
