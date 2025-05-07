@@ -2,7 +2,7 @@
 with builtins;
 with lib;
 let
-  cfg = config.lancache.cache;
+  cfg = config.services.lancache.cache;
 
   nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic cfg; };
 
@@ -11,7 +11,7 @@ let
   });
 in
 {
-  options = {
+  options.services = {
     lancache.cache = {
       enable = mkEnableOption "Enables the Lancache monolithic cache server";
       cacheIp = mkOption {
@@ -27,6 +27,11 @@ in
         description = "The amount of disk space we should use for caching data";
         type = with types; str;
         default = "1000g";
+      };
+      minFreeDisk = mkOption {
+        description = "The minimum amount of free disk space we should have on the cache server. If the cache server runs out of disk space, it will stop accepting new connections.";
+        type = with types; str;
+        default = "100g";
       };
       cacheIndexSize = mkOption {
         description = "Amount of index memory for the nginx cache manager. We recommend 250m of index memory per 1TB of cacheDiskSize";
@@ -52,6 +57,16 @@ in
         description = "The directory where the cache will be stored";
         type = with types; str;
         default = "/var/cache/nginx/cache";
+      };
+      logDir = mkOption {
+        description = "The directory where the cache logs will be stored";
+        type = with types; str;
+        default = "/var/log/nginx";
+      };
+      logFormat = mkOption {
+        description = "The format of the log file, either cachelog or cachelog-json. See https://lancache.net/docs/advanced/tuning-cache/#log-format for more information.";
+        type = with types; str;
+        default = "cachelog";
       };
     };
   };

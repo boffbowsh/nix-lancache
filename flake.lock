@@ -3,11 +3,11 @@
     "cache-domains": {
       "flake": false,
       "locked": {
-        "lastModified": 1662045619,
-        "narHash": "sha256-Qfwu2ZDvMrrVOzN54r2VserP+ezJVZ7Y8efHb/1tG2c=",
+        "lastModified": 1743765937,
+        "narHash": "sha256-4pHTyy8Cm9xXqqegW0sqoiB3/sze/tVMFGWPJ/g70uk=",
         "owner": "uklans",
         "repo": "cache-domains",
-        "rev": "257f009282afb1d9816e21bf09cb10812fc2b4c2",
+        "rev": "2e4b716e39cba642351717e1d15c07b4dfa725ce",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "monolithic": {
       "flake": false,
       "locked": {
-        "lastModified": 1668255020,
-        "narHash": "sha256-+94O6pgxVVOZZ3imlrf/hywBSY9g/LFwBer1KST6iPE=",
+        "lastModified": 1740264490,
+        "narHash": "sha256-GuPx6Qcdi1+YOK4al7fVTKoY1J83sq2o3Yno1Y7JEMM=",
         "owner": "lancachenet",
         "repo": "monolithic",
-        "rev": "a45516468d9dd5dd7b96cdf311c07adb472c4e7f",
+        "rev": "f817fe99d6767fd2ed061c10356b48ecfb8e4bfc",
         "type": "github"
       },
       "original": {
@@ -32,10 +32,27 @@
         "type": "github"
       }
     },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1746422338,
+        "narHash": "sha256-NTtKOTLQv6dPfRe00OGSywg37A1FYqldS6xiNmqBUYc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5b35d248e9206c1f3baf8de6a7683fee126364aa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "cache-domains": "cache-domains",
-        "monolithic": "monolithic"
+        "monolithic": "monolithic",
+        "nixpkgs": "nixpkgs"
       }
     }
   },

@@ -9,7 +9,10 @@ let
     CACHE_SLICE_SIZE = cfg.cacheSliceSize;
     NGINX_WORKER_PROCESSES = cfg.nginxWorkerProcesses;
     UPSTREAM_DNS = concatStringsSep " " cfg.resolvers;
+    MIN_FREE_DISK = cfg.minFreeDisk;
+    LOG_FORMAT = cfg.logFormat;
     "/data/cache/cache" = cfg.cacheDir;
+    "/data/logs" = cfg.logDir;
     "listen 80 reuseport;" = "listen 80 reuseport default_server;";
   };
 

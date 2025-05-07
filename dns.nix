@@ -2,7 +2,7 @@
 with lib;
 with builtins;
 let
-  cfg = config.lancache.dns;
+  cfg = config.services.lancache.dns;
 
   domains = filter
     (d: d != "" && match "^#.*" d == null)
@@ -33,7 +33,7 @@ ns1     IN  A   ${ip}
 in
 {
   options = {
-    lancache.dns = {
+    services.lancache.dns = {
       enable = mkEnableOption "Enables the Lancache DNS server";
       forwarders = mkOption {
         description = "Upstream DNS servers. Defaults to CloudFlare and Google public DNS";
@@ -51,7 +51,7 @@ in
     services.bind = {
       enable = true;
       forwarders = cfg.forwarders;
-      cacheNetworks = [ "192.168.0.0/24" "127.0.0.0/24" ];
+      cacheNetworks = [ "192.168.0.0/16" "127.0.0.0/24" ];
       zones = listToAttrs (map (d: { name = d; value = { master = true; file = zonefile; }; }) (domains));
     };
 
