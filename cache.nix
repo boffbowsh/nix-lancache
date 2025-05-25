@@ -6,8 +6,8 @@ let
 
   nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic cfg; };
 
-  nginx = pkgs.nginx.overrideAttrs (old: {
-    configureFlags = old.configureFlags ++ ["--with-http_slice_module"];
+  nginx = pkgs.nginx.override ({
+    withSlice = true; # Enable slice support for nginx
   });
 in
 {
