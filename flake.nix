@@ -13,15 +13,12 @@
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
-      flake = let
-        cache = { pkgs, monolithic, ... }:
-          pkgs.callPackage ./cache.nix { inherit monolithic; };
-        dns = { pkgs, cache-domains, ... }:
-          pkgs.callPackage ./dns.nix { inherit cache-domains; };
-      in {
+      flake = { pkgs, monolithic, cache-domains, ... }: {
         nixosModules = {
-          cache = cache;
-          dns = dns;
+          cache =  { config, lib, pkgs, ... }:
+            (import ./cache.nix { monolithic = inputs.monolithic; }) { inherit lib pkgs config; };
+          dns = { config, lib, pkgs, ... }:
+            (import ./dns.nix { cache-domains = inputs.cache-domains; }) { inherit lib pkgs config; };
         };
       };
       perSystem = { pkgs, ... }: {
