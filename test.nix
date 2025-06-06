@@ -85,12 +85,8 @@ ns1     IN  A   ${ip}
       ''
         start_all()
 
-        upstream.wait_for_unit("network-online.target")
         upstream.wait_for_open_port(80)
-        server.wait_for_unit("network-online.target")
 
-        # server.succeed("systemctl stop nginx.service")
-        # server.succeed("systemctl start nginx.service")
         server.wait_for_unit("nginx.service")
 
         server.succeed("dig +short lancache.steamcontent.com @${nodes.upstream.networking.primaryIPAddress}")

@@ -1,7 +1,7 @@
 {
   description = "DNS server for LANCache";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
   inputs.cache-domains.url = "github:uklans/cache-domains";
   inputs.cache-domains.flake = false;
   inputs.monolithic.url = "github:lancachenet/monolithic";
