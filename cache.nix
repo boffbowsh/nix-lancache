@@ -6,11 +6,13 @@ let
 
   nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic cfg; };
 
-  nginx = pkgs.nginx.override ({
+  nginx = pkgs.openresty.override ({
     withSlice = true; # Enable slice support for nginx
   });
 in
 {
+  imports = [ ./cache/metrics.nix ];
+
   options.services = {
     lancache.cache = {
       enable = mkEnableOption "Enables the Lancache monolithic cache server";
