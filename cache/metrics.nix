@@ -7,8 +7,8 @@ let
       sha256 = "sha256-ovLpOQKgTfrrgCxCF/OtdPUuAQ9J4RtT9F68Bbzu1XQ=";
     };
     installPhase = "cp -r . $out";
-    };
-  in
+  };
+in
 {
   config.systemd.services.nginx = {
     # Needed so LuaJIT can compile and run code
@@ -22,17 +22,23 @@ let
 
       init_worker_by_lua_block {
         prometheus = require("prometheus").init("prometheus_metrics");
-        metric_requests = prometheus:counter("lancache_requests_total", "Total number of HTTP requests processed by Nginx", {"origin", "status", "cache_status"});
-
-        metric_requests:inc(1, {"lancache", "200", "MISS"});
+        metric_requests = prometheus:counter("lancache_requests_total", "Total number of HTTP requests processed by Nginx", {"cache", "status", "cache_status"});
+        metric_bytes = prometheus:counter("lancache_bytes_total", "Total number of bytes processed by Nginx", {"cache", "status", "cache_status"});
       }
 
       log_by_lua_block {
-        metric_requests:inc(1, {
-          ngx.var.upstream_addr or "unknown",
-          ngx.var.status or "500",
-          ngx.var.cache_status or "MISS"
-        });
+        if ngx.var.upstream_cache_status then
+          metric_requests:inc(1, {
+            ngx.var.cacheidentifier or "unknown",
+            ngx.var.status or "500",
+            ngx.var.upstream_cache_status or "NOT_CACHED"
+          });
+          metric_bytes:inc(tonumber(ngx.var.body_bytes_sent) or 0, {
+            ngx.var.cacheidentifier or "unknown",
+            ngx.var.status or "500",
+            ngx.var.upstream_cache_status or "NOT_CACHED"
+          });
+        end
       }
     '';
 

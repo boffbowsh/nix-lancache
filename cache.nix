@@ -1,10 +1,10 @@
-{ monolithic }: { config, lib, pkgs, ... }:
+{ monolithic, cache-domains }: { config, lib, pkgs, ... }:
 with builtins;
 with lib;
 let
   cfg = config.services.lancache.cache;
 
-  nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic cfg; };
+  nginxConfigs = import ./cache/nginx-configs.nix { inherit pkgs monolithic cfg cache-domains; };
 
   nginx = pkgs.openresty.override ({
     withSlice = true; # Enable slice support for nginx

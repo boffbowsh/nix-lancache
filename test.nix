@@ -94,7 +94,9 @@ ns1     IN  A   ${ip}
         client.succeed("ping -c 1 server")
         client.succeed("dig +short lancache.steamcontent.com @${nodes.server.services.lancache.dns.cacheIp} | grep -q ${nodes.server.services.lancache.dns.cacheIp}")
         client.succeed("curl -s -o /dev/null -w '%{http_code}' http://lancache.steamcontent.com | grep -q 200")
+        client.succeed("curl -s -o /dev/null -w '%{http_code}' http://lancache.steamcontent.com | grep -q 200")
 
-        server.succeed("curl http://127.0.0.1:9200/metrics >&2")
+        server.succeed("curl http://127.0.0.1:9200/metrics | grep -q 'lancache_requests_total{cache=\"steam\",status=\"200\",cache_status=\"MISS\"}'")
+        server.succeed("curl http://127.0.0.1:9200/metrics | grep -q 'lancache_requests_total{cache=\"steam\",status=\"200\",cache_status=\"HIT\"}'")
       ''; 
     }

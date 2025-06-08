@@ -16,7 +16,7 @@
       flake = { pkgs, monolithic, cache-domains, ... }: {
         nixosModules = {
           cache =  { config, lib, pkgs, ... }:
-            (import ./cache.nix { monolithic = inputs.monolithic; }) { inherit lib pkgs config; };
+            (import ./cache.nix { monolithic = inputs.monolithic; cache-domains = inputs.cache-domains; }) { inherit lib pkgs config; };
           dns = { config, lib, pkgs, ... }:
             (import ./dns.nix { cache-domains = inputs.cache-domains; }) { inherit lib pkgs config; };
         };
@@ -24,10 +24,26 @@
       perSystem = { pkgs, ... }: {
         checks = {
           lancache = pkgs.callPackage ./test.nix {
-            cache =
-              pkgs.callPackage ./cache.nix { monolithic = inputs.monolithic; };
-            dns = pkgs.callPackage ./dns.nix {
-              cache-domains = inputs.cache-domains;
+            cache = pkgs.callPackage ./cache.nix { monolithic = inputs.monolithic; cache-domains = inputs.cache-domains; };
+            dns = pkgs.callPackage ./dns.nix { cache-domains = inputs.cache-domains; };
+          };
+        };
+        packages = {
+          nginxConfigs = pkgs.callPackage ./cache/nginx-configs.nix {
+            monolithic = inputs.monolithic; 
+            cache-domains = inputs.cache-domains;
+            cfg = {
+              cacheDir = "/var/cache/nginx/cache";
+              logDir = "/var/log/nginx";
+              logFormat = "lancache";
+              minFreeDisk = "100g";
+              cacheIp = "192.168.1.1";
+              cacheIndexSize = "500m";
+              cacheDiskSize = "1000g";
+              cacheMaxAge = "3560d";
+              cacheSliceSize = "1m";
+              nginxWorkerProcesses = "auto";
+              resolvers = [ "1.1.1.1" ];
             };
           };
         };
