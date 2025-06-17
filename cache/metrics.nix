@@ -51,6 +51,13 @@ in
           }
         '';
       };
+
+      locations."/status" = {
+        extraConfig = ''
+          vhost_traffic_status_display;
+          vhost_traffic_status_display_format html;
+        '';
+      };
     };
   };
 }

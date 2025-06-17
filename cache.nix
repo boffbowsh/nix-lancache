@@ -80,6 +80,8 @@ in
       resolver.addresses = cfg.resolvers;
       package = nginx;
       appendHttpConfig = ''
+        vhost_traffic_status_zone;
+        
         aio threads;
 
         include ${nginxConfigs}/nginx/conf.d/*.conf;
@@ -99,6 +101,10 @@ in
 
         include ${nginxConfigs}/nginx/stream-available/*;
       '';
+
+      additionalModules = [
+        pkgs.nginxModules.vts
+      ];
     };
 
     networking.firewall.allowedTCPPorts = [ 80 443 ];
