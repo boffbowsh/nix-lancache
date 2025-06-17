@@ -56,8 +56,8 @@ in
     services.bind = {
       enable = true;
       forwarders = cfg.forwarders;
-      cacheNetworks = [ "192.168.0.0/16" "127.0.0.0/24" ];
-      zones = listToAttrs (map (d: { name = d; value = { master = true; file = zonefile; }; }) (domains));
+      cacheNetworks = [ "192.168.0.0/16" "127.0.0.0/24" "10.10.0.0/24" ];
+      zones = listToAttrs (map (d: { name = d; value = { master = true; file = zonefile; }; }) (domains ++ [ cfg.adminDomain ]));
     };
 
     networking.firewall.allowedTCPPorts = [ 53 ];
