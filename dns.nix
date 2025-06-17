@@ -44,6 +44,11 @@ in
         description = "IP of cache server to advertise via DNS";
         type = with types; str;
       };
+      adminDomain = mkOption {
+        description = "The administrative domain for the DNS server";
+        type = with types; str;
+        default = "lan";
+      };
     };
   };
 
