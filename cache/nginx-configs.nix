@@ -13,7 +13,7 @@ let
     LOG_FORMAT = cfg.logFormat;
     "/data/cache/cache" = cfg.cacheDir;
     "/data/logs" = cfg.logDir;
-    "listen 80 reuseport;" = "listen 80 reuseport default_server;";
+    "listen 80 reuseport;" = "listen ${cfg.cacheIp}:80 reuseport default_server;";
   };
 
   replacementFlags = concatStringsSep " " (lib.attrsets.mapAttrsToList (k: v: "--replace \"${k}\" \"${v}\"") replacements);

@@ -66,6 +66,7 @@ ns1     IN  A   ${ip}
             cache = {
               enable = true;
               resolvers = [ nodes.upstream.networking.primaryIPAddress ];
+              cacheIp = nodes.server.networking.primaryIPAddress;
             };
           };
 
