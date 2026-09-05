@@ -4,7 +4,11 @@ with builtins;
 let
   cfg = config.services.lancache.dns;
 
-  domains = filter
+  stripWildcard = d:
+    let m = match "^\\*\\.(.*)$" d;
+    in if m == null then d else head m;
+
+  domains = lib.lists.unique (map stripWildcard (filter
     (d: d != "" && match "^#.*" d == null)
     (lib.lists.flatten (
       map
@@ -13,7 +17,7 @@ let
         )
         )
         (filter (f: match ".*txt$" f != null) (attrNames (readDir cache-domains)))
-    ));
+    ))));
 
   ip = cfg.cacheIp;
   zonefile = toFile "zonefile" "
