@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1772408722,
-        "narHash": "sha256-rHuJtdcOjK7rAHpHphUb1iCvgkU3GpfvicLMwwnfMT0=",
+        "lastModified": 1788450739,
+        "narHash": "sha256-glZLQlzIn1fXH6PazR2iUmTo7kzzyYSshrWhLS9TqCU=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f20dc5d9b8027381c474144ecabc9034d6a839a3",
+        "rev": "31729ca8cbdb4fa927b34e5f4353e6a83f39e993",
         "type": "github"
       },
       "original": {
@@ -39,11 +39,11 @@
     "monolithic": {
       "flake": false,
       "locked": {
-        "lastModified": 1768562856,
-        "narHash": "sha256-GGSJUqQ/og84C00WE5VbeQCXyo7/O4P0tBVenPClrQI=",
+        "lastModified": 1785306997,
+        "narHash": "sha256-S96KjzbVHVQXY5PDEJ5vSdfuGUm3rsJRxoOTFH0b/wQ=",
         "owner": "lancachenet",
         "repo": "monolithic",
-        "rev": "c32190a7a0eccd60dbe5a2c9ccee10b67e1af295",
+        "rev": "b9213a93cd2190fec920d5b087d067360aebc0c8",
         "type": "github"
       },
       "original": {
